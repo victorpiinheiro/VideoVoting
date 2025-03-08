@@ -1,0 +1,29 @@
+-- CreateTable
+CREATE TABLE `Video` (
+    `id` INTEGER NOT NULL AUTO_INCREMENT,
+    `title` VARCHAR(191) NOT NULL,
+    `url` VARCHAR(191) NOT NULL,
+    `eloScore` DOUBLE NOT NULL DEFAULT 1000,
+
+    PRIMARY KEY (`id`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+-- CreateTable
+CREATE TABLE `Vote` (
+    `id` INTEGER NOT NULL AUTO_INCREMENT,
+    `video1Id` INTEGER NOT NULL,
+    `video2Id` INTEGER NOT NULL,
+    `winnerId` INTEGER NOT NULL,
+    `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+
+    PRIMARY KEY (`id`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+-- AddForeignKey
+ALTER TABLE `Vote` ADD CONSTRAINT `Vote_video1Id_fkey` FOREIGN KEY (`video1Id`) REFERENCES `Video`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `Vote` ADD CONSTRAINT `Vote_video2Id_fkey` FOREIGN KEY (`video2Id`) REFERENCES `Video`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `Vote` ADD CONSTRAINT `Vote_winnerId_fkey` FOREIGN KEY (`winnerId`) REFERENCES `Video`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;

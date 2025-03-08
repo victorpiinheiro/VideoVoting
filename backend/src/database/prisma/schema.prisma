@@ -1,0 +1,53 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        Int      @id @default(autoincrement())
+  username  String   @unique
+  email     String   @unique
+  password  String
+  createdAt DateTime @default(now())
+
+  videos    Video[]  @relation("UserVideos")
+}
+
+model Video {
+  id          Int      @id @default(autoincrement())
+  title       String
+  url         String
+  description String
+  uploadDate  DateTime
+  eloScore    Float    @default(1000)
+  createdAt   DateTime @default(now())
+  category    String
+  userId      Int
+
+  user        User     @relation("UserVideos", fields: [userId], references: [id])
+  votes1      Vote[]   @relation("VotesAsVideo1")
+  votes2      Vote[]   @relation("VotesAsVideo2")
+  votesWon    Vote[]   @relation("VotesWon")
+}
+
+model Vote {
+  id        Int     @id @default(autoincrement())
+  video1Id  Int
+  video2Id  Int
+  winnerId  Int
+  createdAt DateTime @default(now())
+
+  video1    Video @relation("VotesAsVideo1", fields: [video1Id], references: [id])
+  video2    Video @relation("VotesAsVideo2", fields: [video2Id], references: [id])
+  winner    Video @relation("VotesWon", fields: [winnerId], references: [id])
+}
