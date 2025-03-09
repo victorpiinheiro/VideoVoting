@@ -37,7 +37,7 @@ Inicie o servidor
 ```bash
   npm run dev
 ```
-A API estará rodando em http://localhost:3002.
+A API estará rodando em http://localhost:3000.
 
 Abra outro terminal para entrar no diretório do frontend
 ```bash
