@@ -12,7 +12,7 @@ class VideoController {
       title, url, description, uploadDate, category, userId,
     } = req.body;
 
-    if (!title || !url || !description || !category || !userId) {
+    if (!title || !url || !description || !uploadDate || !category || !userId) {
       return res.status(400).json({
         error: 'Todos os campos devem ser informados',
       });

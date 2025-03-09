@@ -1,9 +1,6 @@
 // importações biblioteca
 import { Router } from 'express';
 
-// importação login required
-import loginRequired from '../middleware/LoginRequired';
-
 // improtação controller
 import videoController from '../controllers/VideoController';
 
