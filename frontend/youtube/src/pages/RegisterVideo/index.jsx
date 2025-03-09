@@ -1,54 +1,103 @@
 import React, { useState } from 'react';
-import {jwtDecode} from 'jwt-decode';
+import { jwtDecode } from 'jwt-decode';
+import { toast } from 'react-toastify'
+import axios from '../../services/axios';
 
 
 import { Form, Input, Button } from './styled';
 
 export default function RegisterVideo() {
-  const [errors, setErrors] = useState(true);
-
   const [formValues, setFormValues] = useState({
-    url: '',
     category: '',
-    titulo: '',
+    title: '',
     description: '',
-    updateDate: new Date(),
+    uploadDate: new Date().toISOString(),
     userId: '',
+    url: '',
   });
 
-
-
-
-
-  function handleChange(e) {
-    const { name, value } = e.target;
+  function getIdToken() {
+    const token = localStorage.getItem('token')
+    const {id} = jwtDecode(token)
+    if (!id) return toast.error('Usuario nao identificado');
     setFormValues((prevState) => ({
       ...prevState,
-      [name]: value,
+      userId: id,
+
     }))
   }
 
-  function editLinkYoutube(link) {
-if (link && link.includes('v=')) {
-  const quebraLink = link.split('v=')[1];
-   const novoLink = `http://www.youtube.com/embed/${quebraLink}`;
-    setErrors(false)
-   return novoLink;
-}
+  function handleChange(e) {
+    const { name, value } = e.target;
 
-return link;
-}
+    setFormValues((prevState) => ({
+      ...prevState,
+      [name]: value,
+      url: name === 'url' ? editLinkYoutube(value) : prevState.url
+    }
+    ))
+  }
+
+  function linkValido(link) {
+    if (!link) return toast.error('Cole a url do video')
+    if (!(link.includes('https://www.youtube.com/') || link.includes('https://youtu.be/'))) {
+      return toast.error('Link invalido')
+    }
+  }
+
+  async function handleSubmit(e) {
+    e.preventDefault();
+
+    linkValido(formValues.url)
+    if (!formValues.title || !formValues.description || !formValues.category || !formValues.url) {
+      return toast.error('todos os campos devem ser preenchidos')
+    }
+
+    await getIdToken();
+    const payload = {
+      ...formValues,
+      uploadDate: new Date().toISOString(),
+    }
+
+    try {
+      await axios.post('/videos', payload );
+      toast.success('Video enviado com sucesso');
+    } catch (error) {
+      console.log('meu erro foi', error)
+      toast.error(error)
+    }
+
+  }
+
+  function editLinkYoutube(link) {
+    if (!link) return link;
+
+    let videoId = ''
+    if (link.includes('watch?v=')) {
+      videoId = link.split('watch?v=')[1].split('&')[0];
+    } else if (link.includes('youtu.be/')) {
+      videoId = link.split('youtu.be/')[1].split('?')[0];
+    }
+
+    if (videoId) {
+      const newLink = `https://www.youtube.com/embed/${videoId}`
+      return newLink;
+    }
+    return link;
+
+
+  }
 
   return (
 
-    <Form>
+    <Form onSubmit={handleSubmit}>
       <h1>Registrar Vídeo</h1>
       <label>
         URL
         <Input
           type="text"
           name='url'
-          value={editLinkYoutube(formValues.url)}
+          value={formValues.url}
           onChange={handleChange}
           placeholder="Cole a url do video" />
       </label>
@@ -57,8 +106,8 @@ return link;
         Título
         <Input
           type="text"
-          name='titulo'
-          value={formValues.titulo}
+          name='title'
+          value={formValues.title}
           onChange={handleChange}
           placeholder="Digite o título" />
       </label>
@@ -75,11 +124,12 @@ return link;
       </label>
 
       <label >
-    Categoria
+        Categoria
         <select
           name="category"
           value={formValues.category}
           onChange={handleChange}>
+          <option value="">Escolha a categoria</option>
           <option value="animacao">Animação</option>
           <option value="automoveis">Automóveis e Veículos</option>
           <option value="comedia">Comédia</option>
@@ -100,7 +150,10 @@ return link;
       </label>
 
 
+
+
       <Button type="submit">Cadastrar</Button>
     </Form>
   )
 }
+
