@@ -5,8 +5,10 @@ import axios from '../../services/axios';
 
 
 import { Form, Input, Button } from './styled';
+import Loader from '../../components/Loader/Loader'
 
 export default function RegisterVideo() {
+  const [loading, setloading] = useState(false)
   const [formValues, setFormValues] = useState({
     category: '',
     title: '',
@@ -53,6 +55,8 @@ export default function RegisterVideo() {
       return toast.error('todos os campos devem ser preenchidos')
     }
 
+    setloading(true);
+
     await getIdToken();
     const payload = {
       ...formValues,
@@ -61,10 +65,12 @@ export default function RegisterVideo() {
 
     try {
       await axios.post('/videos', payload );
-      toast.success('Video enviado com sucesso');
     } catch (error) {
       console.log('meu erro foi', error)
       toast.error(error)
+    }finally{
+      setloading(false)
+      toast.success('Video enviado com sucesso');
     }
 
   }
@@ -92,6 +98,8 @@ export default function RegisterVideo() {
 
     <Form onSubmit={handleSubmit}>
       <h1>Registrar Vídeo</h1>
+
+      {loading && < Loader />}
       <label>
         URL
         <Input
@@ -99,7 +107,9 @@ export default function RegisterVideo() {
           name='url'
           value={formValues.url}
           onChange={handleChange}
-          placeholder="Cole a url do video" />
+          placeholder="Cole a url do video"
+          disabled={loading}
+          />
       </label>
 
       <label>
@@ -109,7 +119,10 @@ export default function RegisterVideo() {
           name='title'
           value={formValues.title}
           onChange={handleChange}
-          placeholder="Digite o título" />
+          placeholder="Digite o título"
+          disabled={loading}
+          />
+
       </label>
 
 
@@ -120,7 +133,9 @@ export default function RegisterVideo() {
           name='description'
           value={formValues.description}
           onChange={handleChange}
-          placeholder="faça uma breve descrição do video" />
+          placeholder="faça uma breve descrição do video"
+          disabled={loading}
+           />
       </label>
 
       <label >
@@ -128,7 +143,9 @@ export default function RegisterVideo() {
         <select
           name="category"
           value={formValues.category}
-          onChange={handleChange}>
+          onChange={handleChange}
+          disabled={loading}
+          >
           <option value="">Escolha a categoria</option>
           <option value="animacao">Animação</option>
           <option value="automoveis">Automóveis e Veículos</option>
@@ -152,8 +169,10 @@ export default function RegisterVideo() {
 
 
 
-      <Button type="submit">Cadastrar</Button>
+      <Button type="submit" disabled={loading}>Cadastrar</Button>
+
     </Form>
+
   )
 }
 
