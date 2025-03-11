@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { jwtDecode } from 'jwt-decode';
 import { toast } from 'react-toastify'
 import axios from '../../services/axios';
@@ -17,6 +17,11 @@ export default function RegisterVideo() {
     userId: '',
     url: '',
   });
+
+
+  useEffect(() => {
+    getIdToken();
+  }, []);
 
   function getIdToken() {
     const token = localStorage.getItem('token')
@@ -57,7 +62,6 @@ export default function RegisterVideo() {
 
     setloading(true);
 
-    await getIdToken();
     const payload = {
       ...formValues,
       uploadDate: new Date().toISOString(),
