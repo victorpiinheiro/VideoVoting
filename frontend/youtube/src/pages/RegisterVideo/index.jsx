@@ -95,11 +95,12 @@ export default function RegisterVideo() {
   }
 
   return (
+<>
+    {loading && < Loader />}
 
     <Form onSubmit={handleSubmit}>
       <h1>Registrar Vídeo</h1>
 
-      {loading && < Loader />}
       <label>
         URL
         <Input
@@ -173,6 +174,7 @@ export default function RegisterVideo() {
 
     </Form>
 
+    </>
   )
 }
 

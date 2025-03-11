@@ -1,8 +1,10 @@
 
-import {Container} from './styled'
+import {Container, Loading} from './styled'
 
 export default function Loader(){
   return (
-  <Container />
+  <Container>
+<Loading />
+  </Container>
   )
 }
