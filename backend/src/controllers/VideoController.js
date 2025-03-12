@@ -49,7 +49,7 @@ class VideoController {
       const videos = await videoModel.getAllVideosByRating();
       if (!videos) res.status(400).json({ Error: 'Lista de videos vazia.' });
 
-      return res.status(200).json({ Videos: videos });
+      return res.status(200).json(videos);
     } catch (error) {
       return res.status(500).json({
         error: 'erro interno ao listar videos',
