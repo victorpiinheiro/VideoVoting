@@ -1,21 +1,39 @@
-import React, {useEffect, useState} from 'react';
-
+import React, { useEffect, useState } from 'react';
+import { toast } from 'react-toastify'
 
 
 import { Container, VideosContainer } from './styled';
 import axios from '../../../services/axios'
 
 
-export default function TopVideo(){
-  const [position, setPosition] = useState(1);
-  const [videos, setVideos] = useState({});
+export default function TopVideo() {
+  const [position, setPosition] = useState(0);
+  const [videos, setVideos] = useState([]);
+  const count = 0;
 
   async function getVideos() {
-    const {data} = await axios.get('/videos');
-    console.log(data)
-    setVideos(data)
+
+    try {
+      const { data } = await axios.get('/videos');
+      filterMostVoted(data)
+    } catch (error) {
+      console.log(error)
+      toast.error(`Nao foi possivel carregar os videos ${error}`)
+    }
   }
-  console.log('meus videos:', videos)
+
+  function filterMostVoted(video) {
+    const topVideos = [...video].sort((a, b) => b.eloScore - a.eloScore).slice(0, 3);
+    if (topVideos.length < 3) {
+      toast.error('Ainda nao existe tres videos Votados');
+      return;
+    }
+    setVideos(topVideos)
+    setPosition(count)
+
+  }
+
+
 
   useEffect(() => {
     getVideos()
@@ -23,32 +41,22 @@ export default function TopVideo(){
 
   return (
     <>
-    <Container>
-      <VideosContainer>
-      <h1>{position}</h1>
-        <iframe src="https://www.youtube.com/embed/-WRymN2XRn4" allowFullScreen></iframe>
-        <h3>Titulo: <span>Ele quer ser eu</span></h3>
-        <h3>Descrição: <span>Musica Mikael</span></h3>
-        <h3>Categoria: <span>Musica</span></h3>
-        <h3>Data do upload: <span>10/03/20253</span></h3>
-      </VideosContainer>
-      <VideosContainer>
-      <h1>{position}</h1>
-        <iframe src="https://www.youtube.com/embed/-WRymN2XRn4" allowFullScreen></iframe>
-        <h3>Titulo: <span>Ele quer ser eu</span></h3>
-        <h3>Descrição: <span>Musica Mikael</span></h3>
-        <h3>Categoria: <span>Musica</span></h3>
-        <h3>Data do upload: <span>10/03/20253</span></h3>
-      </VideosContainer>
-      <VideosContainer>
-        <h1>1</h1>
-        <iframe src="https://www.youtube.com/embed/-WRymN2XRn4" allowFullScreen></iframe>
-        <h3>Titulo: <span>Ele quer ser eu</span></h3>
-        <h3>Descrição: <span>Musica Mikael</span></h3>
-        <h3>Categoria: <span>Musica</span></h3>
-        <h3>Data do upload: <span>10/03/20253</span></h3>
-      </VideosContainer>
-    </Container>
+      <Container>
+
+
+        {videos.map((video) => (
+          <VideosContainer key={video.id}>
+
+            <iframe src={video.url} allowFullScreen></iframe>
+            <h3>Titulo: <span>{video.title}</span></h3>
+            <h3>Descrição: <span>{video.description}</span></h3>
+            <h3>Categoria: <span>{video.category}</span></h3>
+            <h3>Data do upload: <span>{video.uploadDate}</span></h3>
+
+          </VideosContainer>
+        ))}
+
+      </Container>
 
     </>
   )

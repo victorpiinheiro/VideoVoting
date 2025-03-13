@@ -5,8 +5,10 @@ export const Nav = styled.nav`
 display: flex;
 align-items: center;
 justify-content: end;
-background-color: red;
+background-color: #bb9cee;
 padding: 18px;
+height: 50px;
+width: 100%;
 
 a{
 
