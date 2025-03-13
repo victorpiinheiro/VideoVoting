@@ -7,9 +7,8 @@ import axios from '../../../services/axios'
 
 
 export default function TopVideo() {
-  const [position, setPosition] = useState(0);
   const [videos, setVideos] = useState([]);
-  const count = 0;
+
 
   async function getVideos() {
 
@@ -29,8 +28,13 @@ export default function TopVideo() {
       return;
     }
     setVideos(topVideos)
-    setPosition(count)
 
+  }
+
+  function dateFormated(date) {
+    const [ano, mes, dia] = date.split('T')[0].split('-');
+    const dateFormated = `${dia}/${mes}/${ano}`;
+    return dateFormated;
   }
 
 
@@ -44,14 +48,14 @@ export default function TopVideo() {
       <Container>
 
 
-        {videos.map((video) => (
+        {videos.map((video, index ) => (
           <VideosContainer key={video.id}>
-
+            <h1>{index + 1} - Lugar</h1>
             <iframe src={video.url} allowFullScreen></iframe>
             <h3>Titulo: <span>{video.title}</span></h3>
             <h3>Descrição: <span>{video.description}</span></h3>
             <h3>Categoria: <span>{video.category}</span></h3>
-            <h3>Data do upload: <span>{video.uploadDate}</span></h3>
+            <h3>Data do upload: <span>{dateFormated((video.uploadDate))}</span></h3>
 
           </VideosContainer>
         ))}
