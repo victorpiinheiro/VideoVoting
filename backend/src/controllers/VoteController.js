@@ -22,7 +22,7 @@ class VoteController {
 
       // validação que o winnerId pertence a um dos videos
       if (winnerId !== video1Id && winnerId !== video2Id) {
-        return res.status(400).json({ error: 'O winnerId deve ser um dos dois vídeos.' });
+        return res.status(400).json({ error: 'O winnerId deve ser o di de um dos dois vídeos.' });
       }
 
       // Calcula as probabilidades de vitória
