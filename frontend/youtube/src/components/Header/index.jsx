@@ -17,7 +17,7 @@ export default function Header() {
   if (!token) return null;
   return (
     <Nav>
-      <Link to='/home'>Home | </Link>
+      <Link to='/'>Home | </Link>
       <Link to='/register-video'>Registrar video | </Link>
       <Link to='/register-vote'>Votar |</Link>
       <Link to='/login' onClick={logout}>sair</Link>

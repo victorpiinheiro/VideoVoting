@@ -9,17 +9,14 @@ class UserController {
   async store(req, res) {
     const { username, email, password } = req.body;
     try {
-      // campos obrigatorio
       if (!username || !email || !password) {
         return res.status(400).json({
           error: 'Todos os campos são obrigatorios',
         });
       }
 
-      // verifica se o email é valido
       if (!validator.isEmail(email)) return res.status(400).json({ error: 'Email invalido' });
 
-      // verifica se email ja existe na base de dados
       const emailExists = await userModel.checkEmailExists(email);
       if (emailExists) {
         return res.status(409).json({
@@ -33,13 +30,12 @@ class UserController {
         });
       }
 
-      // verificação tamanho da senha
       if (password.length < 6 || password.length > 30) {
         return res.status(400).json({
           error: 'A senha deve ter entre 6 e 30 caracteres',
         });
       }
-      // hash da senha
+
       const passwordHash = await bcrypt.hash(password, 8);
       console.log('hash>', passwordHash);
 
@@ -47,7 +43,7 @@ class UserController {
         username, email, password: passwordHash,
       });
 
-      return res.status(200).json({
+      return res.status(201).json({
         message: 'Usuario cadastrado com sucesso',
         user: username,
         email,

@@ -9,8 +9,8 @@ export const Container = styled.div`
   border-radius: 20px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   border: 1px solid #bababa;
-  display: flex; /* Organiza os elementos em linha */
-  overflow: hidden; /* Evita que os elementos ultrapassem o container */
+  display: flex;
+  overflow: hidden;
 
    .right, .left {
     width: 50%;
