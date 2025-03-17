@@ -36,8 +36,7 @@ export default function Login() {
       console.log(data.token);
       localStorage.setItem('token', data.token);
 
-      toast.success('Usuario logado com sucesso');
-      navigate('/home')
+      navigate('/')
     } catch (error) {
 
       toast.error(`${error.response.data.error}`);

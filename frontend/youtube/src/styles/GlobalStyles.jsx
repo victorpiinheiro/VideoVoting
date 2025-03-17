@@ -23,4 +23,11 @@ export default createGlobalStyle`
   ul {
     list-style: none;
   }
+
+  .autheticated-content{
+    margin-left: 200px;
+    padding: 20px;
+    transition: margin-left 0.3s ease;
+
+  }
 `

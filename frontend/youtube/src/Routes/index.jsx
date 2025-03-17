@@ -19,10 +19,12 @@ export default function AppRoutes() {
         <Route path='/register' element={<RegisterUser />} />
 
         {/* Rotas privadas */}
+
         <Route element={<MyRoutes Component={Home} />} path='/' />
         <Route element={<MyRoutes Component={RegisterVideo} />} path='/register-video' />
         <Route element={<MyRoutes Component={RegisterVote} />} path='/register-vote' />
         <Route element={<MyRoutes Component={Page404} />} path='/page404' />
+
       </Routes>
     </>
 
