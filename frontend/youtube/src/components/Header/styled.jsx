@@ -44,11 +44,12 @@ display: flex;
 flex-direction: column;
 
 
-
 span{
   padding: 5px;
   color: #ffffff;
   font-size: 18px;
+
+
 }
 
 a {
@@ -66,10 +67,11 @@ a {
       color: #3e3350;
     }
   }
+
 }
 
 `
-export const LogoutContainer = styled.a`
+export const LogoutContainer = styled.nav`
 
 height: 100%;
 width: 100%;

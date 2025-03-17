@@ -1,14 +1,15 @@
 import React, { useState } from 'react';
 
 import { Link, useNavigate } from 'react-router-dom';
-import { FaAngleRight, FaAngleLeft, FaHome, FaVideo, FaVoteYea, FaSignInAlt } from "react-icons/fa";
+import { FaAngleRight, FaAngleLeft, FaHome, FaVideo, FaVoteYea, FaSignInAlt, FaFilm } from "react-icons/fa";
 
 import { ContainerNav, Nav, LogoutContainer } from './styled';
 
 export default function VerticalNav() {
   const navigate = useNavigate()
   const token = localStorage.getItem('token');
-  const [isExpanded, setIsExpanded] = useState(false)
+  const [isExpanded, setIsExpanded] = useState(false);
+
 
 
   const logout = () => {
@@ -17,7 +18,7 @@ export default function VerticalNav() {
   }
 
   const toggleNav = () => {
-    setIsExpanded(!isExpanded)
+      setIsExpanded(!isExpanded)
   }
 
 
@@ -25,7 +26,7 @@ export default function VerticalNav() {
   if (!token) return null;
   return (
 
-    <ContainerNav isExpanded={isExpanded} onClick={toggleNav}>
+    <ContainerNav isExpanded={isExpanded}  onClick={toggleNav}>
 
       {isExpanded ? <h3>VideoVoting</h3> : ''}
 
@@ -34,8 +35,8 @@ export default function VerticalNav() {
         {isExpanded ? <FaAngleLeft /> : <FaAngleRight />}
       </button>
       <Nav>
-        <Link to='/'> <span><FaHome /></span>{isExpanded && 'Top Videos'}</Link>
-        <Link to='/'> <span><FaHome /></span>{isExpanded && 'Meus Videos'}</Link>
+        <Link to='/'> <span ><FaHome/></span>{isExpanded && 'Top Videos'}</Link>
+        <Link to='/'> <span><FaFilm/></span>{isExpanded && 'Meus Videos'}</Link>
         <Link to='/register-video'> <span>
           <FaVideo />
         </span> {isExpanded && 'Adicione um video'}</Link>

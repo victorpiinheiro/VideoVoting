@@ -14,6 +14,7 @@ export default createGlobalStyle`
     background-size: cover;
     background-position: center;
     background: #f3f3f3;
+
   }
 
   a {

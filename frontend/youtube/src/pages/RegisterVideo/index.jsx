@@ -18,7 +18,17 @@ export default function RegisterVideo() {
     url: '',
   });
 
-
+function LimpaInput () {
+  setFormValues((prevState) => ({
+    ...prevState,
+    category: '',
+    title: '',
+    description: '',
+    uploadDate: new Date().toISOString(),
+    userId: '',
+    url: '',
+  }))
+}
   useEffect(() => {
     getIdToken();
   }, []);
@@ -73,6 +83,7 @@ export default function RegisterVideo() {
       console.log('meu erro foi', error)
       toast.error(error)
     }finally{
+      LimpaInput()
       setloading(false)
       toast.success('Video enviado com sucesso');
     }
