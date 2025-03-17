@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
-import { Container } from './styled';
+import {Link} from 'react-router-dom';
+import { ContainerLogin, FormLogin, Header } from './styled';
 import axios from '../../services/axios';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
@@ -48,40 +49,36 @@ export default function Login() {
   }
 
   return (
-    <Container>
-      <div className="left">
 
-        <h2>Welcome</h2>
-        <p>Vote no melhor video do youtube</p>
-        <p>Se não tiver cadastro clique no botão abaixo</p>
-        <button className='button-left' onClick={() => navigate('/register')}>Cadastrar</button>
-      </div>
+    <>
+    <Header>VideoVoting</Header>
+    <ContainerLogin>
 
-      <div className="right">
-        <h2>Login</h2>
-
-        <form onSubmit={handleSubmit}>
+        <FormLogin onSubmit={handleSubmit}>
+       <h2>Welcome Back</h2>
 
         <input type="email"
         placeholder="Email"
         name='email'
-         value={formValues.email}
+        value={formValues.email}
         onChange={handleChange}
         autoComplete="current-password"/>
 
         <input type="password"
-        placeholder="Senha"
+        placeholder="Password"
         name='password'
         value={formValues.password}
         onChange={handleChange}
         autoComplete="current-password"
         />
 
-        <button type='submit'>Entrar</button>
+        <button type='submit'>Login</button>
 
-        <a href="">Esqueci minha senha</a>
-        </form>
-      </div>
-    </Container>
+        <Link>Forgot my password</Link>
+        <Link to="/register">Sign Up</Link>
+        </FormLogin>
+
+    </ContainerLogin>
+        </>
   );
 }

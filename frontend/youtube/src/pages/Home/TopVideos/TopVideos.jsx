@@ -21,10 +21,12 @@ export default function TopVideo() {
 
       const { data } = await axios.get('/videos');
       filterMostVoted(data);
-      setLoading(false)
+
     } catch (error) {
       console.log(error)
       toast.error(`Nao foi possivel carregar os videos ${error}`)
+    }finally{
+      setLoading(false)
     }
   }
 
