@@ -20,20 +20,14 @@ export const VideosContainer = styled.div`
 background: #f9f9f9;
 display: flex;
 flex-direction: column;
-min-width: 420px;
-max-width: 420px;
+width: 380px;
 width: fit-content;
 padding: 30px;
-margin: 5px;
+margin: 5px 0 10px 40px;
 border-radius: 10px;
 border: solid transparent;
 box-shadow: 3px 3px 5px #bb9cee;
 transition: .7s ease all;
-
-&:hover {
-  border: 3px solid #bb9cee;
-  scale: 1.1;
-}
 
 h1{
   font-size: 18px;

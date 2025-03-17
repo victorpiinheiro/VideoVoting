@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { FcLike } from 'react-icons/fc';
+import { FaHeart  } from 'react-icons/fa';
 import { RxUpdate } from 'react-icons/rx';
 import { ContainerVideo, Videos, ContainerGeral } from './styled';
 import Loader from '../../components/Loader/Loader'
+import {toast} from 'react-toastify'
 
 import axios from '../../services/axios'
 
@@ -34,7 +35,7 @@ export default function RegisterVideo() {
     setLoading(true)
     try {
       await axios.post('/vote', voteData);
-
+      toast.success('Voto enviado com sucesso')
       await getTwoVideos()
 
     } catch (error) {
@@ -58,12 +59,16 @@ export default function RegisterVideo() {
       <ContainerVideo>
         <Videos>
           <iframe src={video1.url} allowFullScreen></iframe>
-          <button onClick={() => voteBestVideo(video1.id)}><FcLike /></button>
+          <h3>Video: <span>{video1.title}</span></h3>
+          <h3>Descrição: <span>{video1.description}</span></h3>
+          <button onClick={() => voteBestVideo(video1.id)}><FaHeart  /></button>
         </Videos>
         <button onClick={getTwoVideos}><RxUpdate /></button>
         <Videos>
           <iframe src={video2.url} allowFullScreen></iframe>
-          <button onClick={() => voteBestVideo(video2.id)}><FcLike /></button>
+          <h3>Video: <span>{video2.title}</span></h3>
+          <h3>Descrição: <span>{video2.description}</span></h3>
+          <button onClick={() => voteBestVideo(video2.id)}><FaHeart  /></button>
         </Videos>
       </ContainerVideo>
 
