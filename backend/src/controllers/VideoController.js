@@ -143,13 +143,6 @@ class VideoController {
         return res.status(400).json({ error: 'Video não existe no banco de dados' });
       }
 
-      const checkVoted = await voteModel.getVoteById(id);
-      if (checkVoted.length > 0) {
-        return res.status(400).json({
-          error: 'Não é possível deletar o vídeo, pois está associado a votos.',
-        });
-      }
-
       const deleteVideo = await videoModel.deleteVideo(id);
 
       return res.status(200).json({ message: 'Video deletado com sucesso', deleteVideo });
