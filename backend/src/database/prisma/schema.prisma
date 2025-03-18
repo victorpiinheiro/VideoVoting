@@ -34,7 +34,7 @@ model Video {
   category    String
   userId      Int
 
-  user        User     @relation("UserVideos", fields: [userId], references: [id])
+  user        User     @relation("UserVideos", fields: [userId], references: [id], onDelete: Cascade )
   votes1      Vote[]   @relation("VotesAsVideo1")
   votes2      Vote[]   @relation("VotesAsVideo2")
   votesWon    Vote[]   @relation("VotesWon")
@@ -47,7 +47,7 @@ model Vote {
   winnerId  Int
   createdAt DateTime @default(now())
 
-  video1    Video @relation("VotesAsVideo1", fields: [video1Id], references: [id])
-  video2    Video @relation("VotesAsVideo2", fields: [video2Id], references: [id])
-  winner    Video @relation("VotesWon", fields: [winnerId], references: [id])
+  video1    Video @relation("VotesAsVideo1", fields: [video1Id], references: [id], onDelete: Cascade)
+  video2    Video @relation("VotesAsVideo2", fields: [video2Id], references: [id], onDelete: Cascade)
+  winner    Video @relation("VotesWon", fields: [winnerId], references: [id], onDelete: Cascade)
 }
