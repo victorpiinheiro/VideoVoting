@@ -82,4 +82,16 @@ export default class UserModel {
       return error;
     }
   }
+
+  async getUserById(id) {
+    try {
+      return await prisma.user.findUnique({
+        where: {
+          id: parseInt(id, 10),
+        },
+      });
+    } catch (error) {
+      return error;
+    }
+  }
 }

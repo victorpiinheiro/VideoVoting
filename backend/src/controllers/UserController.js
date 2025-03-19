@@ -78,7 +78,7 @@ class UserController {
 
     try {
       const user = await userModel.checkUserExistsById(id);
-      if (!user) return res.status(400).json({ Error: 'Usuario nao encontrado ou nao existe' });
+      if (!user) return res.status(400).json({ error: 'Usuario nao encontrado ou nao existe' });
 
       await userModel.deleteUser(id);
 
@@ -95,7 +95,7 @@ class UserController {
     const { id } = req.params;
 
     const { email, username } = req.body;
-    if (!email && !username) return res.status(400).json({ Error: 'nenhum campo fornecido para editar' });
+    if (!email && !username) return res.status(400).json({ error: 'nenhum campo fornecido para editar' });
 
     const dataToUpdate = {};
     if (email) {
@@ -108,10 +108,10 @@ class UserController {
 
     try {
       const verificaUserExistById = await userModel.checkUserExistsById(id);
-      if (!verificaUserExistById) return res.status(400).json({ Error: 'Id invalido ou usuario nao existe' });
+      if (!verificaUserExistById) return res.status(400).json({ error: 'Id invalido ou usuario nao existe' });
 
       const verifyEmailExists = await userModel.checkEmailExists(email);
-      if (verifyEmailExists) return res.status(400).json({ Error: 'Email ja cadastrado ou invalido' });
+      if (verifyEmailExists) return res.status(400).json({ error: 'Email ja cadastrado ou invalido' });
 
       await userModel.editUser(id, dataToUpdate);
 
@@ -119,6 +119,22 @@ class UserController {
     } catch (error) {
       return res.status(500).json({
         error: 'erro interno ao editar usuario',
+      });
+    }
+  }
+
+  async show(req, res) {
+    const { id } = req.params;
+
+    if (!id) return res.status(400).json({ error: 'Id nao informado' });
+
+    try {
+      const user = await userModel.getUserById(id);
+      if (!user) return res.status(404).json({ error: 'usuario nao encontrado' });
+      return res.status(200).json({ message: 'Usuario encontrado', user });
+    } catch (error) {
+      return res.status(500).json({
+        error: 'erro interno ao procurar usuario',
       });
     }
   }
