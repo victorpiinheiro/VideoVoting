@@ -18,8 +18,8 @@ class TokenController {
       const comparePassword = await bcrypt.compare(password, checkUserExists.password);
       if (!comparePassword) return res.status(401).json({ error: 'Senha invalida' });
 
-      const { id } = checkUserExists;
-      const token = await jwt.sign({ id, email }, process.env.TOKEN_SECRET, {
+      const { id, username } = checkUserExists;
+      const token = await jwt.sign({ id, email, username }, process.env.TOKEN_SECRET, {
         expiresIn: process.env.TOKEN_EXPIRATION,
       });
 
