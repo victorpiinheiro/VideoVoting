@@ -1,83 +1,64 @@
-import React, {useState} from 'react';
-import {Link} from 'react-router-dom';
+import  { useState, useContext } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { ContainerLogin, FormLogin, Header } from './styled';
-import axios from '../../services/axios';
 import { toast } from 'react-toastify';
-import { useNavigate } from 'react-router-dom';
+import { AuthContext } from '../../contexts/Auth';
+
 
 export default function Login() {
-
-  const navigate = useNavigate()
-
-  const [formValues, setFormValues] = useState({
-    email: '',
-    password: '',
-  })
+const navigate = useNavigate()
+    const {login} = useContext(AuthContext)
+   const [email, setEmail] = useState('')
+   const [password, setPassword] = useState('')
 
 
-
-  const handleChange = (e) => {
-      const {name, value} = e.target;
-
-      setFormValues({
-        ...formValues,
-        [name]: value,
-      })
-  }
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (formValues.password.length < 6 || formValues.password.length > 20) {
+    if (password.length < 6 || password.length > 20) {
       return toast.info('A senha deve ter entre 6 e 20 caracteres');
     }
     try {
-      const {data} = await axios.post('/token', formValues)
-      console.log(data.token);
-      localStorage.setItem('token', data.token);
-
-      navigate('/')
+     await login( email, password);
+     navigate('/')
     } catch (error) {
-
-      toast.error(`${error.response.data.error}`);
-      setFormValues({
-        ...formValues,
-        password: '',
-      })
+      setPassword('');
+      toast.error(error.message)
     }
   }
 
   return (
 
     <>
-    <Header>VideoVoting</Header>
-    <ContainerLogin>
+      <Header>VideoVoting</Header>
+      <ContainerLogin>
 
         <FormLogin onSubmit={handleSubmit}>
-       <h2>Welcome Back</h2>
+          <h2>Welcome Back</h2>
 
-        <input type="email"
-        placeholder="Email"
-        name='email'
-        value={formValues.email}
-        onChange={handleChange}
-        autoComplete="current-password"/>
+          <input type="email"
+            placeholder="Email"
+            name='email'
+            value={email}
+            onChange={(e) => setEmail(() => e.target.value)}
+            autoComplete="current-password" />
 
-        <input type="password"
-        placeholder="Password"
-        name='password'
-        value={formValues.password}
-        onChange={handleChange}
-        autoComplete="current-password"
-        />
+          <input type="password"
+            placeholder="Password"
+            name='password'
+            value={password}
+            onChange={(e) => setPassword(() => e.target.value)}
+            autoComplete="current-password"
+          />
 
-        <button type='submit'>Login</button>
+          <button type='submit'>Login</button>
 
-        <Link>Forgot my password</Link>
-        <Link to="/register">Sign Up</Link>
+          <Link>Forgot my password</Link>
+          <Link to="/register">Sign Up</Link>
         </FormLogin>
 
-    </ContainerLogin>
-        </>
+      </ContainerLogin>
+    </>
   );
 }
