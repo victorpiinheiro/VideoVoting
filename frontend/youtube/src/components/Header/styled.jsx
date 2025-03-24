@@ -76,8 +76,9 @@ export const LogoutContainer = styled.nav`
 height: 100%;
 width: 100%;
 display: flex;
+flex-direction: column;
 align-items: end;
-justify-content: start;
+justify-content: end;
 text-align: center;
 padding: 0 5px 0 5px;
 text-align: left;
@@ -92,9 +93,10 @@ span{
 }
 
 a {
+  align-items: end;
+  text-align: left;
   width: 100%;
   font-weight: bold;
-  text-align: left;
   margin: 0 0 10px 0;
   border-radius: 5px;
   padding: 10px;
