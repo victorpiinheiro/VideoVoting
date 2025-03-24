@@ -37,12 +37,13 @@ const AuthProvider = ({ children }) => {
   }, [])
 
   const logout = () => {
-    localStorage.removeItem('token')
+    localStorage.removeItem('token');
     setUser({
       id: '',
       email: '',
       username: '',
     })
+
 
   }
   return (

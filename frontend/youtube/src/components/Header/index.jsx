@@ -1,6 +1,6 @@
-import React, { useState, useContext } from 'react';
+import  { useState, useContext } from 'react';
 
-import { Link, useNavigate } from 'react-router-dom';
+import { Link  } from 'react-router-dom';
 import { FaAngleRight, FaAngleLeft, FaHome, FaVideo, FaVoteYea, FaSignInAlt, FaFilm } from "react-icons/fa";
 import { FaGear } from "react-icons/fa6";
 
@@ -8,14 +8,18 @@ import { ContainerNav, Nav, LogoutContainer } from './styled';
 import {AuthContext} from '../../contexts/Auth'
 
 export default function VerticalNav() {
-  const navigate = useNavigate()
-
   const {logout, user} = useContext(AuthContext)
   const [isExpanded, setIsExpanded] = useState(false);
 
   const toggleNav = () => {
-      setIsExpanded(!isExpanded)
+      setIsExpanded(!isExpanded);
+
   }
+
+ const handleLogout = () => {
+  setIsExpanded(false);
+  logout();
+ }
 
   return (
 
@@ -42,7 +46,7 @@ export default function VerticalNav() {
       <LogoutContainer>
 
         <Link to='/login' onClick={logout}><span><FaGear /></span>{isExpanded && 'Minha conta'}</Link>
-        <Link to='/login' onClick={logout}><span><FaSignInAlt /></span>{isExpanded && 'Sair'}</Link>
+        <Link to='/login' onClick={handleLogout}><span><FaSignInAlt /></span>{isExpanded && 'Sair'}</Link>
       </LogoutContainer>
 
     </ContainerNav>
