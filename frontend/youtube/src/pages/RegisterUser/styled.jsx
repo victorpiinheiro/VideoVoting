@@ -1,97 +1,124 @@
 import styled from 'styled-components';
 
-export const Container = styled.div`
-  max-width: 900px;
-  min-height: 600px;
-  background: #e0e0de;
-  margin: 50px auto;
+import * as colors from '../../config/colors'
+export const Header = styled.nav`
 
-  border-radius: 20px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  border: 1px solid #bababa;
+width: 100%;
+min-height: 40px;
+display: flex;
+align-items: center;
+font-size: 36px;
+padding: 10px 0 10px 20px;
+font-weight: bold;
+color: #9666e4;
+
+`
+
+export const ContainerLogin = styled.div`
+
+margin: 50px auto;
+min-width: 320px;
+width: 420px;
+height: 460px;
+display: flex;
+flex-direction: column;
+background: ${colors.backgroundContainer};
+box-sizing: border-box;
+
+
+
+h2{
+  color: #a1a1a1;
   display: flex;
-  overflow: hidden;
+  align-items: center;
+  text-align: center;
+  justify-content: center;
+  width: 90%;
+  border-bottom: 1px solid #c3c3c3;
+  margin: 10px;
+  padding: 20px;
 
-   .right, .left {
-    width: 50%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding: 20px;
-  }
+}
 
-  .left {
-    background: #fff;
-  }
-
-  .right {
-    background: #d1c4e9;
-    color: #333;
-  }
-
-  .button-left{
-    background: #fff;
-    color: #673ab7 ;
-    border: 1px solid #7c6d94;
-    font-weight: bold;
-    margin: 10px;
-    width: fit-content;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 15px;
-
-  }
-
-  form {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    text-align: center;
-    justify-content: center;
-    align-items: center;
-
-  }
-
-
-  button {
-    padding: 10px 20px;
-    border: none;
-    background: #673ab7;
-    color: white;
-    cursor: pointer;
-    border-radius: 4px;
-    margin-top: 15px;
-    width: 75%;
-    height: 35px;
-    text-transform: uppercase;
-    font-size: 18px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  input {
-    border: solid 1px #d1c4e9;
-    border-radius: 4px;
-    margin-top: 20px;
-    height: 35px;
-    width: 75%;
-    padding: 5px 10px;
-    font-size: 15px;
-    box-sizing: border-box;
-
-  }
-
-
-  @media (max-width: 768px) {
-    flex-direction: column;
-    text-align: center;
-
-    .left, .right {
-      width: 100%;
-      min-height: 250px;
-    }
-  }
 `;
+
+export const FormLogin = styled.form`
+display: flex;
+flex-direction: column;
+text-align: center;
+justify-content: center;
+align-items: center;
+
+width: 100%;
+height: 100%;
+
+p{
+  background: #fa5050;
+  width: 90%;
+  padding: 4px 15px 5px 15px;
+  color: #ffffff;
+  border-radius: 4px;
+  margin-bottom: 2px;
+}
+
+h2{
+  margin: 20px;
+}
+
+input{
+
+  margin: 10px;
+  height: 40px;
+  width: 90%;
+  border-radius: 5px;
+  padding: 10px;
+  font-size: 18px;
+  border: 1px solid #c3c3c3;
+  color: #9666e4;
+
+  &:hover {
+    border: 2px solid #9666e4;
+    cursor: pointer;
+  }
+}
+
+button {
+  margin: 10px;
+  height: 40px;
+  border-radius: 5px;
+  font-size: 18px;
+  width: 90%;
+  background-color: ${colors.buttonColor};
+  color: #ffffff;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  border: 2px solid #9666e4;
+
+
+&:hover {
+  cursor: pointer;
+}
+}
+
+a{
+  display: flex;
+
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  width: fit-content;
+  padding: 2px;
+  font-size: 18px;
+  border-bottom: 1px solid transparent;
+  transition: border-bottom .5s ease;
+
+  &:hover {
+
+    border-bottom: 1px solid #9666e4;
+  }
+}
+
+`;
+
+

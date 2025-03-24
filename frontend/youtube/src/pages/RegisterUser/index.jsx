@@ -1,117 +1,137 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { Container } from './styled';
-import axios from '../../services/axios';
+import { useEffect, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { ContainerLogin, FormLogin, Header } from './styled';
 import { toast } from 'react-toastify';
 
+import axios from '../../services/axios';
 
-export default function Register() {
-  const navigate = useNavigate()
-  const [formValues, setFormValues] = useState({
+
+export default function Login() {
+  const navigate = useNavigate();
+  const [errorsUsername, setErrors] = useState([]);
+  const [errorsPassword, setErrorsPassword] = useState([]);
+  const [formValue, setFormValue] = useState({
     username: '',
     email: '',
     password: '',
     confirmPass: '',
-  })
+  });
+
+
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (errorsUsername.length > 0 || errorsPassword.length > 0) {
+      return toast.info('Dados invalidos')
+    }
+    const data = {
+      username: formValue.username,
+      email: formValue.email,
+      password: formValue.password,
+    }
+
+    try {
+      await axios.post('/register', data);
+      toast.success('Usuario cadastrado com sucesso')
+      navigate('/')
+    } catch (err) {
+      toast.error(err.response)
+    }
+  }
+
+  const validaUsername = (username) => {
+    const caracteresProibidos = '+-*/,.:;/?!@#$%¨`´&()-^}{][~_';
+    if (caracteresProibidos.indexOf(username[0]) !== -1 || caracteresProibidos.indexOf(username[username.length - 1]) !== -1) {
+      setErrors(['Caracteres especiais são proibidos no inicio/final do username'])
+    } else {
+      setErrors([]);
+    }
+    return username.trim()
+
+  }
+
+  const ValidaPassword = (password, confirmPass) => {
+    if (confirmPass !== password) {
+      setErrorsPassword(['As senhas nao conhecidem']);
+    } else {
+      setErrorsPassword([])
+    }
+
+  }
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormValues( {
-    ...formValues,
-    [name]: value,
-  })
-}
 
-const handleSubmit = async (e) => {
-  e.preventDefault();
+    if (name === 'username') {
+      validaUsername(value.trim())
+    }
 
-  if (formValues.password.length < 6 || formValues.password.length > 20) {
-    return toast.error('A senha deve ter entre 6 e 20 caracteres')
+    if (name === 'confirmPass') {
+      ValidaPassword(formValue.password, value.trim())
+    }
+
+
+
+    setFormValue((prevState) => ({
+      ...prevState,
+      [name]: value.trim()
+    }));
+    return;
   }
-  if (formValues.password !== formValues.confirmPass){
-    return toast.error('As senhas devem ser a mesma')
-  }
-
-  try {
-     const userRegister = await axios.post('/register', {
-        username: formValues.username,
-        email: formValues.email,
-        password: formValues.password
-       });
-
-      const createToken = await axios.post('/token', {
-       email: formValues.email,
-       password: formValues.password
-      } )
 
 
-      const {token} = createToken.data;
+  return (
 
-      localStorage.setItem('token', token);
-      toast.success('Usuario criado com sucesso');
-      navigate('/home')
+    <>
+      <Header>VideoVoting</Header>
+      <ContainerLogin>
 
-
-  } catch (error) {
-
-    toast.error(error.response.data.error)
-  }
-}
+        <FormLogin onSubmit={handleSubmit}>
+          <h2>Welcome </h2>
 
 
-return (
-  <Container>
+          <input type="text"
+            placeholder="Username"
+            name='username'
+            value={formValue.username}
+            onChange={handleChange}
+            autoComplete="current-password" />
+
+          {errorsUsername.length > 0 && <p>{errorsUsername}</p>}
 
 
-    <div className="right">
-      <h2>Register</h2>
+          <input type="email"
+            placeholder="Email"
+            name='email'
+            value={formValue.email}
+            onChange={handleChange}
+            autoComplete="current-password" />
 
-      <form onSubmit={handleSubmit}>
+          <input type="password"
+            placeholder="Password"
+            name='password'
+            value={formValue.password}
+            onChange={handleChange}
+            autoComplete="current-password"
+          />
 
-        <input type="text"
-          placeholder="user"
-          name='username'
-          value={formValues.username}
-          onChange={handleChange}
+          <input type="password"
+            placeholder="Confirm pass"
+            name='confirmPass'
+            value={formValue.confirmPass}
+            onChange={handleChange}
+            autoComplete="current-password"
+          />
 
-          autoComplete="current-password" />
+          {errorsPassword.length > 0 && <p>{errorsPassword}</p>}
 
-        <input type="email"
-          placeholder="Email"
-          name='email'
-          value={formValues.email}
-          onChange={handleChange}
-
-          autoComplete="current-password" />
-
-        <input type="password"
-          placeholder="Senha"
-          name='password'
-          value={formValues.password}
-          onChange={handleChange}
-          autoComplete="current-password"
-        />
-
-        <input type="password"
-          placeholder="Confirme a senha"
-          name='confirmPass'
-          value={formValues.confirmPass}
-          onChange={handleChange}
-          autoComplete="current-password"
-        />
-
-        <button type='submit'>Cadastrar</button>
+          <button type='submit'>sign up</button>
 
 
-      </form>
-    </div>
+          <Link to="/login">Already have an account? Log in</Link>
+        </FormLogin>
 
-    <div className="left">
-
-      <h2>Ja possui cadastro ?</h2>
-      <p>Se voce já possui cadastro, faça login no botão abaixo</p>
-      <button className='button-left' onClick={() => navigate('/login')}>Login</button>
-    </div>
-  </Container>
-);
+      </ContainerLogin>
+    </>
+  );
 }
