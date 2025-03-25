@@ -4,10 +4,12 @@ import { ContainerLogin, FormLogin, Header } from './styled';
 import { toast } from 'react-toastify';
 
 import axios from '../../services/axios';
+import Loading from '../../components/Loader/Loader';
 
 
 export default function Login() {
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false)
   const [errorsUsername, setErrors] = useState([]);
   const [errorsPassword, setErrorsPassword] = useState([]);
   const [formValue, setFormValue] = useState({
@@ -21,9 +23,15 @@ export default function Login() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!checkPasswordLength(formValue.password)) {
+      return;
+    };
     if (errorsUsername.length > 0 || errorsPassword.length > 0) {
-      return toast.info('Dados invalidos')
+      toast.info('dados inválidos: verifique username ou senha');
+      return;
     }
+
+
     const data = {
       username: formValue.username,
       email: formValue.email,
@@ -31,11 +39,15 @@ export default function Login() {
     }
 
     try {
+      setLoading(true)
       await axios.post('/register', data);
       toast.success('Usuario cadastrado com sucesso')
       navigate('/')
     } catch (err) {
+      setLoading(true)
       toast.error(err.response)
+    } finally {
+      setLoading(false)
     }
   }
 
@@ -50,9 +62,25 @@ export default function Login() {
 
   }
 
+  const checkPasswordLength = (password) => {
+
+    if (password.length < 6 || password.length > 20) {
+      toast.error('A senha deve conter entre 6 e 20 caracatres ');
+      setFormValue((prevState) => ({
+        ...prevState,
+        password: '',
+        confirmPass: ''
+      }))
+      return false;
+
+    }
+    return true;
+
+  }
+
   const ValidaPassword = (password, confirmPass) => {
     if (confirmPass !== password) {
-      setErrorsPassword(['As senhas nao conhecidem']);
+      setErrorsPassword(['As senhas devem ser iguais']);
     } else {
       setErrorsPassword([])
     }
@@ -85,7 +113,7 @@ export default function Login() {
     <>
       <Header>VideoVoting</Header>
       <ContainerLogin>
-
+        {loading && <Loading />}
         <FormLogin onSubmit={handleSubmit}>
           <h2>Welcome </h2>
 

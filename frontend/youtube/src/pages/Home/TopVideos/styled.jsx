@@ -20,7 +20,7 @@ export const VideosContainer = styled.div`
 background: #f9f9f9;
 display: flex;
 flex-direction: column;
-width: 380px;
+max-width: 380px;
 width: fit-content;
 padding: 30px;
 margin: 5px 0 10px 40px;
