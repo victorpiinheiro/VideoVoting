@@ -1,16 +1,39 @@
 # Projeto Video Voting
 
-O projeto **Video Voting** permite que os usuários cadastrem vídeos via link do YouTube e votem nos melhores, ajudando a destacar os conteúdos mais populares com base em votos.
+O **Video Voting** é uma plataforma que permite aos usuários cadastrar vídeos do YouTube através de links e votar neles, ajudando a destacar os vídeos mais populares. Além disso, o projeto inclui autenticação de usuários, votação simples e exibição dos vídeos mais votados.
+
 
 ## 🚀 Tecnologias Utilizadas
 - Node.js
 - Express
 - React
+- Hooks
 - Vite
 - MySQL
 - Prisma ORM
 - Nodemon
 
+
+
+
+## Aqui estão alguns exemplos de requisições e respostas usando o **Insomnia** para interagir com a API:
+
+- **GET /videos**
+![Insominia Screenshot 1](https://github.com/victorpiinheiro/VideoVoting/blob/main/images/getvideos.png?raw=true)
+
+- **POST /user**
+![Insominia Screenshot 2](https://github.com/victorpiinheiro/VideoVoting/blob/main/images/postuser.png?raw=true)
+
+## Aqui estão alguns exemplos do frontEnd do projeto:
+
+- **Tela de Login**
+![Tela de Login](https://github.com/victorpiinheiro/VideoVoting/blob/main/images/login.png?raw=true)
+
+- **Home Page**
+![Tela Home](https://github.com/victorpiinheiro/VideoVoting/blob/main/images/home.png?raw=true)
+
+- **Pagina de votação**
+![Tela de Votação](https://github.com/victorpiinheiro/VideoVoting/blob/main/images/votacao.png?raw=true)
 
 
 
@@ -37,7 +60,7 @@ Inicie o servidor
 ```bash
   npm run dev
 ```
-A API estará rodando em http://localhost:3000.
+A API estará rodando em http://localhost:3002.
 
 Abra outro terminal para entrar no diretório do frontend
 ```bash
