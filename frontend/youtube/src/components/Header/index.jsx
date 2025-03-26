@@ -16,36 +16,47 @@ export default function VerticalNav() {
 
   }
 
+  const handleLinkClick = (e) => {
+    e.stopPropagation();
+    if (isExpanded) {
+      setIsExpanded(false)
+    }
+  }
+
  const handleLogout = () => {
   setIsExpanded(false);
   logout();
  }
 
+
   return (
 
-    <ContainerNav isExpanded={isExpanded}  onClick={toggleNav}>
+    <ContainerNav isExpanded={isExpanded} onClick={toggleNav}>
 
-      {isExpanded ? <h3>VideoVoting</h3> : ''}
+
+
+      {isExpanded ? <h3>VideoVoting</h3> : '' }
       {isExpanded ? <h3>Olá, {user.username}</h3> : ''}
 
 
-      <button onClick={toggleNav}>
+
+      <button >
         {isExpanded ? <FaAngleLeft /> : <FaAngleRight />}
       </button>
-      <Nav>
-        <Link to='/'> <span ><FaHome/></span>{isExpanded && 'Top Videos'}</Link>
-        <Link to='/'> <span><FaFilm/></span>{isExpanded && 'Meus Videos'}</Link>
-        <Link to='/register-video'> <span>
+      <Nav >
+        <Link to='/' onClick={handleLinkClick}> <span ><FaHome/></span>{isExpanded && 'Top Videos'}</Link>
+        <Link to='/myvideos' onClick={handleLinkClick}> <span><FaFilm/></span>{isExpanded && 'Meus Videos'}</Link>
+        <Link to='/register-video' onClick={handleLinkClick}> <span>
           <FaVideo />
         </span> {isExpanded && 'Adicione um video'}</Link>
-        <Link to='/register-vote'> <span>
+        <Link to='/register-vote' onClick={handleLinkClick}> <span>
           <FaVoteYea />
         </span>{isExpanded && 'Vote no melhor video'}</Link>
       </Nav>
 
       <LogoutContainer>
 
-        <Link to='/login' onClick={logout}><span><FaGear /></span>{isExpanded && 'Minha conta'}</Link>
+        <Link to='/login' onClick={handleLinkClick}><span><FaGear /></span>{isExpanded && 'Minha conta'}</Link>
         <Link to='/login' onClick={handleLogout}><span><FaSignInAlt /></span>{isExpanded && 'Sair'}</Link>
       </LogoutContainer>
 

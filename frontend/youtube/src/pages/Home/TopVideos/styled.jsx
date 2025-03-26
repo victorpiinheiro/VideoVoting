@@ -11,16 +11,13 @@ justify-content: space-around;
 flex-wrap: wrap;
 padding: 10px;
 border: none;
-
-
-
 `;
 
 export const VideosContainer = styled.div`
 background: #f9f9f9;
 display: flex;
 flex-direction: column;
-max-width: 380px;
+max-width: 300px;
 width: fit-content;
 padding: 30px;
 margin: 5px 0 10px 40px;
@@ -42,7 +39,8 @@ h1{
 iframe{
 margin-bottom: 10px;
 border-radius: 5px;
-height: 250px;
+height: 180px;
+
 transition: 1s ease bb9cee;
 
 &:hover {
@@ -55,6 +53,7 @@ h3 {
   padding:  10px 0 0  0;
   margin-bottom: 3px;
   border-bottom: 1px solid #c3c3c3;
+  font-size: 15px;
 
 }
 

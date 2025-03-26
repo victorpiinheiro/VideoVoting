@@ -13,6 +13,7 @@ border-radius: 0 10px 10px 0;
 position: fixed;
 left: 0;
 top: 0;
+z-index: 1;
 
 h3 {
   color: white;
@@ -77,11 +78,13 @@ height: 100%;
 width: 100%;
 display: flex;
 flex-direction: column;
-align-items: end;
+text-align: center;
+align-items: center;
 justify-content: end;
 text-align: center;
-padding: 0 5px 0 5px;
-text-align: left;
+padding: 0 10px 20px 5px;
+
+
 
 
 
@@ -93,13 +96,15 @@ span{
 }
 
 a {
-  align-items: end;
-  text-align: left;
+  display: flex;
+  justify-content: left;
+  align-items: center;
+  text-align: center;
   width: 100%;
   font-weight: bold;
-  margin: 0 0 10px 0;
+  margin: 0 0 5px 0;
   border-radius: 5px;
-  padding: 10px;
+  padding: 5px;
 
   &:hover {
     background: #ffffff;

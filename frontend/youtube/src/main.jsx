@@ -5,6 +5,7 @@ import { ToastContainer } from 'react-toastify';
 
 import AppRoutes from './Routes';
 import GlobalStyles from './styles/GlobalStyles';
+import Footer from './components/Footer/Index';
 
 import AuthProvider from './contexts/Auth';
 
@@ -17,6 +18,7 @@ createRoot(document.getElementById('root')).render(
       <ToastContainer autoClose={2500} />
     </AuthProvider>
     </BrowserRouter>
+      <Footer/>
   </StrictMode>
 )
 
