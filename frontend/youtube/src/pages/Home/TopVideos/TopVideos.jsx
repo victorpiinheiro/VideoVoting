@@ -60,7 +60,7 @@ export default function TopVideo() {
         {loading && <Loader />}
         {videos.map((video, index ) => (
           <VideosContainer key={video.id}>
-            <h1>{index + 1} - Lugar</h1>
+            <h1>{index + 1}º Lugar</h1>
             <iframe src={video.url} allowFullScreen></iframe>
             <h3>Titulo: <span>{video.title}</span></h3>
             <h3>Descrição: <span>{video.description}</span></h3>
