@@ -92,4 +92,18 @@ export default class VideoModel {
       throw new Error('Erro ao delatar video', error);
     }
   }
+
+  async getVideosByUserId(id) {
+    try {
+      const videos = await prisma.video.findMany({
+        where: {
+          userId: parseInt(id, 10),
+        },
+      });
+
+      return videos;
+    } catch (error) {
+      throw new Error('Erro ao buscar videos:', error);
+    }
+  }
 }

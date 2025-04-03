@@ -154,6 +154,27 @@ class VideoController {
       });
     }
   }
+
+  /* ================================================================================= */
+
+  async getVideosByUserId(req, res) {
+    try {
+      const { id } = req.params;
+      if (!id) return res.status(400).json({ error: 'Id nao fornecido' });
+
+      const videos = await videoModel.getVideosByUserId(id);
+      if (!videos) return res.status(400).json({ error: 'Usuario nao tem videos cadastrados' });
+
+      return res.status(200).json({
+        message: 'Videos encontrado com sucesso',
+        videos,
+      });
+    } catch (error) {
+      return res.status(500).json({
+        error: 'erro interno ao listar videos',
+      });
+    }
+  }
 }
 
 export default new VideoController();
