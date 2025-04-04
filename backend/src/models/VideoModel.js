@@ -35,9 +35,6 @@ export default class VideoModel {
         },
       });
 
-      if (!videos || videos.length === 0) {
-        throw new Error('Nenhum video encontrado');
-      }
       return videos;
     } catch (error) {
       throw new Error('Erro ao buscar videos:', error);

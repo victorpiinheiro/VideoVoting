@@ -1,10 +1,8 @@
 import VideoModel from '../models/VideoModel';
 import UserModel from '../models/UserModel';
-import VoteModel from '../models/VoteModel';
 
 const videoModel = new VideoModel();
 const userModel = new UserModel();
-const voteModel = new VoteModel();
 
 class VideoController {
   async createVideo(req, res) {
@@ -47,7 +45,7 @@ class VideoController {
   async index(req, res) {
     try {
       const videos = await videoModel.getAllVideosByRating();
-      if (!videos) res.status(400).json({ Error: 'Lista de videos vazia.' });
+      if (videos.length === 0) return res.status(400).json({ Error: 'Lista de videos vazia.' });
 
       return res.status(200).json(videos);
     } catch (error) {
