@@ -1,15 +1,16 @@
-import React, { useState, useEffect } from 'react';
-import { jwtDecode } from 'jwt-decode';
+import  { useState, useEffect, useContext } from 'react';
 import { toast } from 'react-toastify'
 import axios from '../../services/axios';
+import {AuthContext} from '../../contexts/Auth';
 
 
 import { Form, Input, Button } from './styled';
 import Loader from '../../components/Loader/Loader'
 
 export default function RegisterVideo() {
-  const [loading, setloading] = useState(false)
-  const [formValues, setFormValues] = useState({
+  const {user} = useContext(AuthContext)
+  const [loading, setloading] = useState(false);
+    const [formValues, setFormValues] = useState({
     category: '',
     title: '',
     description: '',
@@ -24,25 +25,19 @@ function LimpaInput () {
     category: '',
     title: '',
     description: '',
-    uploadDate: new Date().toISOString(),
-    userId: '',
     url: '',
   }))
 }
   useEffect(() => {
-    getIdToken();
-  }, []);
+if (user?.id) {
+  setFormValues((prevState) => ({
+    ...prevState,
+    userId: user.id,
+  }))
+}
+  }, [user]);
 
-  function getIdToken() {
-    const token = localStorage.getItem('token')
-    const {id} = jwtDecode(token)
-    if (!id) return toast.error('Usuario nao identificado');
-    setFormValues((prevState) => ({
-      ...prevState,
-      userId: id,
 
-    }))
-  }
 
   function handleChange(e) {
     const { name, value } = e.target;
@@ -58,14 +53,20 @@ function LimpaInput () {
   function linkValido(link) {
     if (!link) return toast.error('Cole a url do video')
     if (!(link.includes('https://www.youtube.com/') || link.includes('https://youtu.be/'))) {
-      return toast.error('Link invalido')
+      toast.error('Link invalido')
+      return;
     }
+    return link
   }
 
   async function handleSubmit(e) {
     e.preventDefault();
 
-    linkValido(formValues.url)
+   const {id} = user
+    if (!id) return toast.error('usuario nao encontrado')
+
+    const link = linkValido(formValues.url);
+    if (!link) return;
     if (!formValues.title || !formValues.description || !formValues.category || !formValues.url) {
       return toast.error('todos os campos devem ser preenchidos')
     }
@@ -85,7 +86,7 @@ function LimpaInput () {
     }finally{
       LimpaInput()
       setloading(false)
-      toast.success('Video enviado com sucesso');
+      toast.success('Seu vídeo foi cadastrado');
     }
 
   }
