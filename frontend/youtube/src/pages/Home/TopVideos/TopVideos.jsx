@@ -1,16 +1,14 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
-import Loading from '../../../components/Loader/Loader';
-import {useNavigate} from 'react-router-dom'
+import {  Link } from 'react-router-dom'
 
 
-import { Container, VideosContainer } from './styled';
+import { Container, VideosContainer} from './styled';
 import axios from '../../../services/axios'
 import Loader from '../../../components/Loader/Loader';
 
 
 export default function TopVideo() {
-  const navigate = useNavigate();
   const [videos, setVideos] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -18,14 +16,15 @@ export default function TopVideo() {
   async function getVideos() {
 
     try {
-
+      setLoading(true)
       const { data } = await axios.get('/videos');
+      if (!data) return
       filterMostVoted(data);
 
     } catch (error) {
-      console.log(error)
-      toast.error(`Nao foi possivel carregar os videos ${error}`)
-    }finally{
+
+      console.error(error.response)
+    } finally {
       setLoading(false)
     }
   }
@@ -33,8 +32,6 @@ export default function TopVideo() {
   function filterMostVoted(video) {
     const topVideos = [...video].sort((a, b) => b.eloScore - a.eloScore).slice(0, 3);
     if (topVideos.length < 3) {
-      navigate('/page404')
-      toast.error('Ainda nao existe tres videos Votados');
       return;
     }
     setVideos(topVideos)
@@ -42,9 +39,11 @@ export default function TopVideo() {
   }
 
   function dateFormated(date) {
+
+    if (!date) return 'Data Invalida'
     const [ano, mes, dia] = date.split('T')[0].split('-');
-    const dateFormated = `${dia}/${mes}/${ano}`;
-    return dateFormated;
+    return `${dia}/${mes}/${ano}`;
+
   }
 
 
@@ -58,7 +57,18 @@ export default function TopVideo() {
       <Container>
 
         {loading && <Loader />}
-        {videos.map((video, index ) => (
+
+        {videos.length === 0 && !loading && (
+
+          <div className='empty-state'>
+            <p> Ainda não há vídeos suficientes para um ranking. Envie novos vídeos para participar! </p>
+            <Link to={'/register-video'}>Cadastrar novo video</Link>
+          </div>
+
+
+        )}
+
+        {videos.map((video, index) => (
           <VideosContainer key={video.id}>
             <h1>{index + 1}º Lugar</h1>
             <iframe src={video.url} allowFullScreen></iframe>

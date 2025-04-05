@@ -11,6 +11,33 @@ justify-content: space-around;
 flex-wrap: wrap;
 padding: 10px;
 border: none;
+
+.empty-state {
+
+
+
+
+  margin-left: 55px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-size: 18px;
+  position: fixed;
+  padding: 10px;
+  height: 100px;
+
+  }
+
+  .empty-state a {
+    background: #ff7979;
+    margin-top: 20px;
+    padding: 10px 30px;
+  color: #f3f3f3;
+  border-radius: 5px;
+
+  }
+
 `;
 
 export const VideosContainer = styled.div`
@@ -62,5 +89,8 @@ span{
 }
 
 `
+
+
+
 
 
