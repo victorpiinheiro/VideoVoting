@@ -1,6 +1,3 @@
-import React from 'react'
-
-
 import TopVideos from './TopVideos/TopVideos'
 
 import { Title, Container} from './styled'
