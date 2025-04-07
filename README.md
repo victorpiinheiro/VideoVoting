@@ -94,5 +94,10 @@ Substitua **USUARIO** pelo seu usuário do MySQL.
 Substitua **SENHA** pela senha do seu MySQL.
 Substitua **seu_token_secreto** por um valor seguro para autenticação.
 
+### 4. Executar as migrations do Prisma
 
+Ainda no diretório do backend, execute o seguinte comando para criar as tabelas no banco:
+
+```bash
+npx prisma migrate dev
 
