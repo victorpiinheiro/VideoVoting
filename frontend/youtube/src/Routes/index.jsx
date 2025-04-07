@@ -12,18 +12,12 @@ import MyVideos from '../pages/MyVideos'
 
 import { AuthContext } from '../contexts/Auth';
 import VerticalNav from '../components/Header';
-import Loader from '../components/Loader/Loader';
 
 export default function AppRoutes() {
   const { user } = useContext(AuthContext);
 
-if (user.id === '' ) {
-  return <Loader />
-}
   return (
     <>
-
-
       {user.id && <VerticalNav />}
 
       <Routes>

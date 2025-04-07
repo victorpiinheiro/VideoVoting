@@ -4,13 +4,9 @@ import { MdOutlineCancel } from "react-icons/md";
 import { toast } from 'react-toastify'
 import { useState } from 'react';
 
-import {useNavigate} from 'react-router-dom'
-
 import Loader from '../../components/Loader/Loader';
 
 import axios from '../../services/axios';
-
-
 
 export default function EditVideoForm({ setEditMode, setFormEditValues, formEditValue }) {
 const [loading, setLoading] = useState(false);
@@ -78,9 +74,7 @@ const [loading, setLoading] = useState(false);
             onChange={handleChange}
             placeholder="Digite o título"
           />
-
         </label>
-
 
         <label>
           Descrição
@@ -90,7 +84,6 @@ const [loading, setLoading] = useState(false);
             placeholder="faça uma breve descrição do video"
             value={formEditValue.description}
             onChange={handleChange}
-
           />
         </label>
 
@@ -100,8 +93,6 @@ const [loading, setLoading] = useState(false);
             name="category"
             value={formEditValue.category}
             onChange={handleChange}
-
-
           >
             <option value="">Escolha a categoria</option>
             <option value="animacao">Animação</option>
@@ -122,9 +113,6 @@ const [loading, setLoading] = useState(false);
 
           </select>
         </label>
-
-
-
 
         <Button type="submit" >{loading ? 'Salvando...' : 'editar'}</Button>
 

@@ -19,7 +19,7 @@ export default function RegisterVideo() {
       setVideo1(response.data.Video1);
       setVideo2(response.data.Video2);
     } catch (error) {
-      console.log('O erro esta:', error)
+      console.log(error)
     }finally{
       setLoading(false)
     }

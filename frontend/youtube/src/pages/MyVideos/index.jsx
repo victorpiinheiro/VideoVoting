@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 
 import EditVideoForm from './EditVideoForm';
 
-import { Container, VideosSection, Videocontainer, InfoContainer, ButtonsContainer, EmptyState, Titulo } from './styled';
+import { Container, VideosSection, Videocontainer, InfoContainer, ButtonsContainer, EmptyState } from './styled';
 import axios from '../../services/axios';
 import { AuthContext } from '../../contexts/Auth';
 
@@ -27,12 +27,12 @@ export default function MyVideos() {
   const formatedDate = (date) => {
     const localDate = new Date(date)
     const dia = String(localDate.getDate()).padStart(2, '0');
-    const mes = String(localDate.getMonth() + 1).padStart(2, '0') ;
+    const mes = String(localDate.getMonth() + 1).padStart(2, '0');
     const ano = String(localDate.getFullYear()).padStart(2, '0');
 
-    const horas = String(localDate.getHours()).padStart(2, '0') ;
-    const minutos = String(localDate.getMinutes()).padStart(2, '0') ;
-    const segundos = String(localDate.getSeconds()).padStart(2, '0') ;
+    const horas = String(localDate.getHours()).padStart(2, '0');
+    const minutos = String(localDate.getMinutes()).padStart(2, '0');
+    const segundos = String(localDate.getSeconds()).padStart(2, '0');
 
     return `${dia}-${mes}-${ano} (${horas}:${minutos}:${segundos})`
 
@@ -41,13 +41,19 @@ export default function MyVideos() {
 
   const getVideosFromUser = async () => {
 
-    const serarchingAllVideos = await axios.get('/videos');
-    const filterVideosUserId = serarchingAllVideos.data.filter((video) => {
-      if (video.userId === user.id) return video;
-    })
+    try {
+      const serarchingAllVideos = await axios.get('/videos');
+      const filterVideosUserId = serarchingAllVideos.data.filter((video) => {
+        if (video.userId === user.id) return video;
+      })
 
-    if (!filterVideosUserId) return;
-    setVideos(filterVideosUserId);
+      if (!filterVideosUserId) return;
+      setVideos(filterVideosUserId);
+
+    } catch (error) {
+      console.log(error.response.data.Error)
+
+    }
   }
 
 
@@ -65,6 +71,7 @@ export default function MyVideos() {
       setVideos((prevState) => prevState.filter((video) => {
         video.id !== id
       }));
+    
     } catch (err) {
       toast.error(err)
     }
@@ -72,7 +79,6 @@ export default function MyVideos() {
 
   const handleEdit = async (id) => {
     setEditMode(true);
-
     const videoParaEditar = videos.find((video) => {
       return video.id === id
     })
@@ -80,7 +86,10 @@ export default function MyVideos() {
   }
 
   useEffect(() => {
-    getVideosFromUser();
+
+      getVideosFromUser();
+
+
   }, [videos])
 
   return (
@@ -106,9 +115,9 @@ export default function MyVideos() {
       ) : (
 
         <Container>
-              <>
-              <h1>Meus Videos</h1>
-              </>
+          <>
+            <h1>Meus Videos</h1>
+          </>
           {videos.map((video) => (
             <VideosSection key={video.id}>
               <Videocontainer>
