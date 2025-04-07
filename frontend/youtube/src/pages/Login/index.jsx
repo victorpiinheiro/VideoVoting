@@ -34,8 +34,8 @@ const navigate = useNavigate()
       <Header>VideoVoting</Header>
       <ContainerLogin>
 
-        <FormLogin onSubmit={handleSubmit}>
           <h2>Welcome Back</h2>
+        <FormLogin onSubmit={handleSubmit}>
 
           <input type="email"
             placeholder="Email"

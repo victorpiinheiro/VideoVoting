@@ -19,11 +19,14 @@ export const ContainerLogin = styled.div`
 margin: 50px auto;
 min-width: 320px;
 width: 420px;
-height: 460px;
+height: 420px;
 display: flex;
 flex-direction: column;
 background: ${colors.backgroundContainer};
 box-sizing: border-box;
+border: 1px solid #e9e9e9;
+border-radius: 5px;
+
 
 
 
@@ -34,7 +37,6 @@ h2{
   text-align: center;
   justify-content: center;
   width: 90%;
-  border-bottom: 1px solid #c3c3c3;
   margin: 10px;
   padding: 20px;
 
@@ -45,12 +47,13 @@ h2{
 export const FormLogin = styled.form`
 display: flex;
 flex-direction: column;
-text-align: center;
-justify-content: center;
+text-align: start;
+justify-content: start;
 align-items: center;
 
+
 width: 100%;
-height: 100%;
+height: fit-content;
 
 h2{
   margin: 20px;
