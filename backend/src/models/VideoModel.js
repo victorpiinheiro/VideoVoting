@@ -85,7 +85,6 @@ export default class VideoModel {
 
       return deleteVideo;
     } catch (error) {
-      console.log('ERRO:', error);
       throw new Error('Erro ao delatar video', error);
     }
   }

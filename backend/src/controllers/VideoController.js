@@ -114,7 +114,7 @@ class VideoController {
       if (url) dados.url = url;
       if (description) dados.description = description;
       if (category) dados.category = category;
-      console.log('meus dados:', Object.keys(dados).length);
+
 
       if (Object.keys(dados).length < 1) {
         return res.status(400).json({ Error: 'nenhum dado informado' });

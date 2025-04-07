@@ -37,7 +37,7 @@ class UserController {
       }
 
       const passwordHash = await bcrypt.hash(password, 8);
-      console.log('hash>', passwordHash);
+
 
       await userModel.createUser({
         username, email, password: passwordHash,
