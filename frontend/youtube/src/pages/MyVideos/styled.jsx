@@ -53,6 +53,16 @@ h1 {
 
 }
 
+a {
+  position: absolute;
+  top: 10px;
+  right: 25px;
+  background: #75d491;
+  padding: 8px;
+  color: #f3f3f3;
+  border-radius: 5px;
+}
+
 `
 
 export const VideosSection = styled.section`

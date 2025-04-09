@@ -14,6 +14,7 @@ export default function MyVideos() {
   const [videos, setVideos] = useState([]);
   const { user } = useContext(AuthContext);
   const [formEditValue, setFormEditValues] = useState({})
+  const [exibirVideo, setExibirVideo] = useState(false)
 
 
 
@@ -71,7 +72,7 @@ export default function MyVideos() {
       setVideos((prevState) => prevState.filter((video) => {
         video.id !== id
       }));
-    
+
     } catch (err) {
       toast.error(err)
     }
@@ -91,6 +92,10 @@ export default function MyVideos() {
 
 
   }, [videos])
+
+  const exibirVideoDoYoutubeNaTela = () => {
+    setExibirVideo(!exibirVideo)
+  }
 
   return (
 
@@ -117,11 +122,14 @@ export default function MyVideos() {
         <Container>
           <>
             <h1>Meus Videos</h1>
+            <Link to='/register-video'>Novo Video</Link>
           </>
           {videos.map((video) => (
             <VideosSection key={video.id}>
               <Videocontainer>
-                <img src={handleImagemYoutube(video.url)} />
+
+                <img  src={handleImagemYoutube(video.url)} />
+
               </Videocontainer>
 
 
