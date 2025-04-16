@@ -1,5 +1,6 @@
 import bcrypt from 'bcrypt';
 import validator from 'validator';
+import bcrypt from 'bcrypt';
 
 import UserModel from '../models/UserModel';
 
@@ -37,7 +38,6 @@ class UserController {
       }
 
       const passwordHash = await bcrypt.hash(password, 8);
-
 
       await userModel.createUser({
         username, email, password: passwordHash,
@@ -133,6 +133,31 @@ class UserController {
       if (!user) return res.status(404).json({ error: 'usuario nao encontrado' });
       return res.status(200).json({ message: 'Usuario encontrado', user });
     } catch (error) {
+      return res.status(500).json({
+        error: 'erro interno ao procurar usuario',
+      });
+    }
+  }
+
+  async updatePassword(req, res) {
+    const { id } = req.params;
+    if (!id) return res.status(400).json({ error: 'Id nao informado' });
+    const { senhaAntiga, password } = req.body;
+    console.log(senhaAntiga, password)
+    if (!senhaAntiga || !password) return res.status(400).json({ error: 'Senha antiga ou nova senha nao informadas' });
+
+
+    try {
+      const user = await userModel.getUserById(id);
+      if (!user) return res.status(404).json({ error: 'Usuario não enconytrado' });
+      const compareSenhas = await bcrypt.compare(senhaAntiga, user.password);
+
+      if (!compareSenhas) return res.status(400).json({ error: 'senha invalida' })
+        const hashNewPassword = await bcrypt.hash(password, 8)
+        await userModel.editUser(id, {password: hashNewPassword});
+        return res.status(200).json({ message: 'Usuario editado com sucesso' });
+
+    } catch (err) {
       return res.status(500).json({
         error: 'erro interno ao procurar usuario',
       });
