@@ -1,0 +1,16 @@
+{
+  "name": "youtube",
+  "version": "1.0.0",
+  "description": "O **Video Voting** é uma plataforma que permite aos usuários cadastrar vídeos do YouTube através de links e votar neles, ajudando a destacar os vídeos mais populares. Além disso, o projeto inclui autenticação de usuários, votação simples e exibição dos vídeos mais votados.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "concurrently \"npm run dev --prefix backend\" \"npm run dev --prefix frontend/youtube\""
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "concurrently": "^9.1.2"
+  }
+}
