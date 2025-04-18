@@ -142,18 +142,18 @@ class UserController {
   async updatePassword(req, res) {
     const { id } = req.params;
     if (!id) return res.status(400).json({ error: 'Id nao informado' });
-    const { senhaAntiga, password } = req.body;
-    console.log(senhaAntiga, password)
-    if (!senhaAntiga || !password) return res.status(400).json({ error: 'Senha antiga ou nova senha nao informadas' });
+    const { currentPassword, newPassword } = req.body;
+    console.log(currentPassword, newPassword)
+    if (!currentPassword || !newPassword) return res.status(400).json({ error: 'Senha antiga ou nova senha nao informadas' });
 
 
     try {
       const user = await userModel.getUserById(id);
       if (!user) return res.status(404).json({ error: 'Usuario não enconytrado' });
-      const compareSenhas = await bcrypt.compare(senhaAntiga, user.password);
+      const compareSenhas = await bcrypt.compare(currentPassword, user.password);
 
       if (!compareSenhas) return res.status(400).json({ error: 'senha invalida' })
-        const hashNewPassword = await bcrypt.hash(password, 8)
+        const hashNewPassword = await bcrypt.hash(newPassword, 8)
         await userModel.editUser(id, {password: hashNewPassword});
         return res.status(200).json({ message: 'Usuario editado com sucesso' });
 

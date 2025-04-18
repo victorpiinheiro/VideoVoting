@@ -8,9 +8,9 @@ const AuthProvider = ({ children }) => {
 
 
   const [user, setUser] = useState({
-    id: '',
-    username: '',
-    email: '',
+    id: null,
+    username: null,
+    email: null,
   })
 
   const login = async (email, password) => {
@@ -39,9 +39,9 @@ const AuthProvider = ({ children }) => {
   const logout = () => {
     localStorage.removeItem('token');
     setUser({
-      id: '',
-      email: '',
-      username: '',
+      id: null,
+      email: null,
+      username: null,
     })
 
 
