@@ -56,7 +56,7 @@ export default function VerticalNav() {
 
       <LogoutContainer>
 
-        <Link to='/login' onClick={handleLinkClick}><span><FaGear /></span>{isExpanded && 'Minha conta'}</Link>
+        <Link to='/my-account' onClick={handleLinkClick}><span><FaGear /></span>{isExpanded && 'Minha conta'}</Link>
         <Link to='/login' onClick={handleLogout}><span><FaSignInAlt /></span>{isExpanded && 'Sair'}</Link>
       </LogoutContainer>
 

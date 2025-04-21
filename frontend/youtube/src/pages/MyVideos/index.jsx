@@ -4,17 +4,20 @@ import { toast } from 'react-toastify';
 import { Link } from 'react-router-dom';
 
 import EditVideoForm from './EditVideoForm';
+import Loader from '../../components/Loader/Loader';
 
 import { Container, VideosSection, Videocontainer, InfoContainer, ButtonsContainer, EmptyState } from './styled';
 import axios from '../../services/axios';
 import { AuthContext } from '../../contexts/Auth';
+
 
 export default function MyVideos() {
   const [editMode, setEditMode] = useState(false)
   const [videos, setVideos] = useState([]);
   const { user } = useContext(AuthContext);
   const [formEditValue, setFormEditValues] = useState({})
-  const [exibirVideo, setExibirVideo] = useState(false)
+  const [loading, setLoading] = useState(true)
+
 
 
 
@@ -43,6 +46,7 @@ export default function MyVideos() {
   const getVideosFromUser = async () => {
 
     try {
+      setLoading(true)
       const serarchingAllVideos = await axios.get('/videos');
       const filterVideosUserId = serarchingAllVideos.data.filter((video) => {
         if (video.userId === user.id) return video;
@@ -65,6 +69,7 @@ export default function MyVideos() {
     if (!confirmacao) return;
 
     try {
+
       await axios.delete(`/videos/${id}`);
       toast.success('Video excluido com sucesso');
 
@@ -93,9 +98,8 @@ export default function MyVideos() {
 
   }, [videos])
 
-  const exibirVideoDoYoutubeNaTela = () => {
-    setExibirVideo(!exibirVideo)
-  }
+
+
 
   return (
 
@@ -112,14 +116,14 @@ export default function MyVideos() {
       )}
 
 
-      {videos.length === 0 ? (
+      {videos.length === 0  ? (
         <EmptyState>
           <p> Você ainda não possui vídeos cadastrados. Envie novos vídeos para participar! </p>
           <Link to={'/register-video'}>Cadastrar novo video</Link>
         </EmptyState>
       ) : (
-
         <Container>
+          
           <>
             <h1>Meus Videos</h1>
             <Link to='/register-video'>Novo Video</Link>
