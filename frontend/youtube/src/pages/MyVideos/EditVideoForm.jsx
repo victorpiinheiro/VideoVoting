@@ -8,8 +8,8 @@ import Loader from '../../components/Loader/Loader';
 
 import axios from '../../services/axios';
 
-export default function EditVideoForm({ setEditMode, setFormEditValues, formEditValue }) {
-const [loading, setLoading] = useState(false);
+export default function EditVideoForm({ setEditMode, setFormEditValues, formEditValue, getVideosUser }) {
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -19,17 +19,18 @@ const [loading, setLoading] = useState(false);
     }));
   }
 
-  const atualizaDadosNoBD = async ( id, dados) => {
+  const atualizaDadosNoBD = async (id, dados) => {
     if (!dados) return;
     setLoading(true)
     try {
       await axios.put(`/videos/${id}`, dados);
       toast.success('Video editado com sucesso')
-     setEditMode(false)
+      setEditMode(false)
+      await getVideosUser()
     } catch (error) {
       toast.error(error);
       return;
-    }finally{
+    } finally {
       setLoading(false);
     }
   }
@@ -42,14 +43,16 @@ const [loading, setLoading] = useState(false);
   const handleSubmit = (e) => {
     e.preventDefault();
     atualizaDadosNoBD(formEditValue.id, formEditValue);
+
+
   }
 
   return (
 
     <EditContainer>
 
-{loading && <Loader />}
-      <Form  onSubmit={handleSubmit}>
+      {loading && <Loader />}
+      <Form onSubmit={handleSubmit}>
         <button type='button' className='closed' onClick={handleClosed}><MdOutlineCancel /></button>
         <h1>Editar Vídeo</h1>
 

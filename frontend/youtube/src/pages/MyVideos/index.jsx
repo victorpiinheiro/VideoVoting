@@ -10,16 +10,23 @@ import { Container, VideosSection, Videocontainer, InfoContainer, ButtonsContain
 import axios from '../../services/axios';
 import { AuthContext } from '../../contexts/Auth';
 
-
 export default function MyVideos() {
   const [editMode, setEditMode] = useState(false)
   const [videos, setVideos] = useState([]);
   const { user } = useContext(AuthContext);
   const [formEditValue, setFormEditValues] = useState({})
-  const [loading, setLoading] = useState(true)
 
 
+  useEffect(() => {
 
+    if (user?.id) {
+      getVideosFromUser()
+    }
+  }, [user?.id])
+
+if (!user?.id) {
+  return <Loader />
+}
 
 
   const handleImagemYoutube = (url) => {
@@ -39,30 +46,17 @@ export default function MyVideos() {
     const segundos = String(localDate.getSeconds()).padStart(2, '0');
 
     return `${dia}-${mes}-${ano} (${horas}:${minutos}:${segundos})`
-
-
   }
 
   const getVideosFromUser = async () => {
-
     try {
-      setLoading(true)
-      const serarchingAllVideos = await axios.get('/videos');
-      const filterVideosUserId = serarchingAllVideos.data.filter((video) => {
-        if (video.userId === user.id) return video;
-      })
-
-      if (!filterVideosUserId) return;
-      setVideos(filterVideosUserId);
-
+      const meusVideos = await axios.get(`videos/user/${user.id}`);
+      setVideos(meusVideos.data.videos);
     } catch (error) {
-      console.log(error.response.data.Error)
+      console.log('meu', error)
 
     }
   }
-
-
-
 
   const handleDelete = async (id) => {
     const confirmacao = confirm('tem certeza que deseja excluir esse video?');
@@ -75,7 +69,7 @@ export default function MyVideos() {
 
 
       setVideos((prevState) => prevState.filter((video) => {
-        video.id !== id
+        return video.id !== id
       }));
 
     } catch (err) {
@@ -91,16 +85,6 @@ export default function MyVideos() {
     setFormEditValues(videoParaEditar)
   }
 
-  useEffect(() => {
-
-      getVideosFromUser();
-
-
-  }, [videos])
-
-
-
-
   return (
 
     <>
@@ -111,19 +95,20 @@ export default function MyVideos() {
           setEditMode={setEditMode}
           formEditValue={formEditValue}
           setFormEditValues={setFormEditValues}
-
+          getVideosUser={getVideosFromUser}
         />
       )}
 
 
-      {videos.length === 0  ? (
+
+      {videos.length === 0 ? (
         <EmptyState>
           <p> Você ainda não possui vídeos cadastrados. Envie novos vídeos para participar! </p>
           <Link to={'/register-video'}>Cadastrar novo video</Link>
         </EmptyState>
       ) : (
         <Container>
-          
+
           <>
             <h1>Meus Videos</h1>
             <Link to='/register-video'>Novo Video</Link>
@@ -132,7 +117,7 @@ export default function MyVideos() {
             <VideosSection key={video.id}>
               <Videocontainer>
 
-                <img  src={handleImagemYoutube(video.url)} />
+                <img src={handleImagemYoutube(video.url)} />
 
               </Videocontainer>
 
