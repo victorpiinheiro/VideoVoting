@@ -110,8 +110,15 @@ class UserController {
       const verificaUserExistById = await userModel.checkUserExistsById(id);
       if (!verificaUserExistById) return res.status(400).json({ error: 'Id invalido ou usuario nao existe' });
 
-      const verifyEmailExists = await userModel.checkEmailExists(email);
-      if (verifyEmailExists) return res.status(400).json({ error: 'Email ja cadastrado ou invalido' });
+
+      const AllUsers = await userModel.getAllUsers();
+      const filterUser = AllUsers.filter(user => user.id !== Number(id));
+
+      filterUser.filter((user) => {
+        if (user.email === dataToUpdate.email || user.username === dataToUpdate.username) {
+          return res.status(400).json({error: 'Username ou email ja cadastrado'})
+        }
+      })
 
       await userModel.editUser(id, dataToUpdate);
 
@@ -149,13 +156,13 @@ class UserController {
 
     try {
       const user = await userModel.getUserById(id);
-      if (!user) return res.status(404).json({ error: 'Usuario não enconytrado' });
+      if (!user) return res.status(404).json({ error: 'Usuario não encontrado' });
       const compareSenhas = await bcrypt.compare(currentPassword, user.password);
 
       if (!compareSenhas) return res.status(400).json({ error: 'senha invalida' })
         const hashNewPassword = await bcrypt.hash(newPassword, 8)
         await userModel.editUser(id, {password: hashNewPassword});
-        return res.status(200).json({ message: 'Usuario editado com sucesso' });
+        return res.status(200).json({ message: 'Senha editada com sucesso' });
 
     } catch (err) {
       return res.status(500).json({
