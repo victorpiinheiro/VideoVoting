@@ -91,7 +91,7 @@ export default class UserModel {
         },
       });
     } catch (error) {
-      return error;
+      throw new Error('Erro ao atualizar o usuário');
     }
   }
 }

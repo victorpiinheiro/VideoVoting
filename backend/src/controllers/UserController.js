@@ -94,35 +94,49 @@ class UserController {
   async update(req, res) {
     const { id } = req.params;
 
-    const { email, username } = req.body;
-    if (!email && !username) return res.status(400).json({ error: 'nenhum campo fornecido para editar' });
+    const { email, password } = req.body;
+    if (!email) return res.status(400).json({ error: 'Campo email não fornecedido' });
+    if (!password) return res.status(400).json({ error: 'Campo senha não fornecido' });
 
-    const dataToUpdate = {};
-    if (email) {
-      if (!validator.isEmail(email)) {
-        return res.status(400).json({ Error: 'Email invalido' });
-      }
-      dataToUpdate.email = email;
+    if (!validator.isEmail(email)) {
+      return res.status(400).json({ Error: 'Email invalido' });
     }
-    if (username) dataToUpdate.username = username;
 
     try {
-      const verificaUserExistById = await userModel.checkUserExistsById(id);
-      if (!verificaUserExistById) return res.status(400).json({ error: 'Id invalido ou usuario nao existe' });
 
+      const meuUserAtual = await userModel.getUserById(id);
+      if (!meuUserAtual) {
+        return res.status(404).json({ error: 'Usuário não encontrado' });
+      }
 
-      const AllUsers = await userModel.getAllUsers();
-      const filterUser = AllUsers.filter(user => user.id !== Number(id));
+      if (meuUserAtual.email === email) {
+        return res.status(404).json({ error: 'O novo email cadastrado não pode ser igual o atual' });
+      }
 
-      filterUser.filter((user) => {
-        if (user.email === dataToUpdate.email || user.username === dataToUpdate.username) {
-          return res.status(400).json({error: 'Username ou email ja cadastrado'})
-        }
-      })
+      const allUsers = await userModel.getAllUsers();
 
-      await userModel.editUser(id, dataToUpdate);
+      if (!allUsers) {
+        return res.status(400).json({ error: 'erro ao buscar todos os usuarios' });
+      }
 
-      return res.status(200).json({ message: 'Usuario editado com sucesso' });
+      // retira o usuario que ira ser cadastrado da busca
+      let verificaEmailNaoEstaCadastrado = allUsers.filter(user => user.id !== meuUserAtual.id);
+
+      // filtra para ver se o email que sera cadastrado ja existe
+      verificaEmailNaoEstaCadastrado = verificaEmailNaoEstaCadastrado.filter(user => user.email === email)
+
+      if (verificaEmailNaoEstaCadastrado.length > 0) {
+        return res.status(400).json({error: 'Email já existente'})
+      }
+
+      const compareSenha = await bcrypt.compare(password, meuUserAtual.password);
+      if (!compareSenha) {
+        return res.status(400).json({message: 'Senha inválida'})
+      }
+
+      const editUser = await userModel.editUser(id, {email})
+      return res.status(200).json({message: 'E-mail editado com sucesso'})
+
     } catch (error) {
       return res.status(500).json({
         error: 'erro interno ao editar usuario',
@@ -160,9 +174,9 @@ class UserController {
       const compareSenhas = await bcrypt.compare(currentPassword, user.password);
 
       if (!compareSenhas) return res.status(400).json({ error: 'senha invalida' })
-        const hashNewPassword = await bcrypt.hash(newPassword, 8)
-        await userModel.editUser(id, {password: hashNewPassword});
-        return res.status(200).json({ message: 'Senha editada com sucesso' });
+      const hashNewPassword = await bcrypt.hash(newPassword, 8)
+      await userModel.editUser(id, { password: hashNewPassword });
+      return res.status(200).json({ message: 'Senha editada com sucesso' });
 
     } catch (err) {
       return res.status(500).json({
