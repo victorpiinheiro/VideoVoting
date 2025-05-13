@@ -131,7 +131,7 @@ class UserController {
 
       const compareSenha = await bcrypt.compare(password, meuUserAtual.password);
       if (!compareSenha) {
-        return res.status(400).json({message: 'Senha inválida'})
+        return res.status(400).json({error: 'Senha inválida'})
       }
 
       const editUser = await userModel.editUser(id, {email})

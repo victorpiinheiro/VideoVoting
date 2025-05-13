@@ -12,8 +12,6 @@ border: 1px solid #c3c3c3;
 border-radius: 5px;
 display: flex;
 
-
-
 .nav-container{
   display: flex;
   flex-direction: column;
@@ -53,70 +51,4 @@ display: flex;
   flex-direction: column;
 
 }
-
-.title-perfil{
-  border-bottom: 1px solid #cccc;
-  text-align: center;
-  width: 100%;
-  height: fit-content;
-  padding: 10px;
-}
-
-
-.info-user{
-display: flex;
-flex-direction: column;
-width: 100%;
-text-align: start;
-padding: 10px 10px 10px 100px;
-border-bottom: 1px solid #cccc;
-height: fit-content;
-
-& span {
-  margin: 10px;
-  background: #ffffff;
-  padding: 10px;
-  width: fit-content;
-  border: 1px solid #cccc;
-
-}
-
-& h5 {
-  padding-left: 15px;
-
-}
-
-& button {
-  width: fit-content;
-  margin-left: 10px;
-  padding: 5px 10px 5px 10px;
-}
-
-}
-
-.section-password{
-  display: flex;
-  flex-direction: column;
-  text-align: start;
-  padding: 10px 10px 10px 100px;
-
-
-
-& label {
-
-  margin-top: 10px;
-}
-& input {
-  margin-top: 10px;
-  padding: 8px;
-  width: 80%;
-}
-& button {
-  margin-top: 20px;
-  padding: 8px;
-  width: 20%
-}
-
-}
-
-`
+  `

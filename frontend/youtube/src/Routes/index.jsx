@@ -10,18 +10,13 @@ import Page404 from '../pages/404';
 import RegisterVote from '../pages/RegisterVote';
 import MyVideos from '../pages/MyVideos';
 import MyAccount from '../pages/MyAccount';
-import Profile from '../pages/MyAccount/Profile/index';
+import Profile from '../pages/MyAccount/Profile/Profile';
 
 import { AuthContext } from '../contexts/Auth';
 import VerticalNav from '../components/Header';
 
 export default function AppRoutes() {
   const { user } = useContext(AuthContext);
-
-console.log(user)
-
-
-
   return (
     <>
       {user?.id && <VerticalNav />}
