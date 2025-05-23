@@ -11,6 +11,7 @@ import RegisterVote from '../pages/RegisterVote';
 import MyVideos from '../pages/MyVideos';
 import MyAccount from '../pages/MyAccount';
 import Profile from '../pages/MyAccount/Profile/Profile';
+import DeleteAccount from '../pages/MyAccount/DeleteAccount/DeleteAccoutn';
 
 import { AuthContext } from '../contexts/Auth';
 import VerticalNav from '../components/Header';
@@ -36,6 +37,7 @@ export default function AppRoutes() {
 
             <Route path='/my-account' element={<MyRoutes Component={MyAccount}/>}>
               <Route path='profile' element={<Profile />}/>
+              <Route path='delete-account' element={<DeleteAccount />}/>
             </Route>
           </>
 

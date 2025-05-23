@@ -16,7 +16,7 @@ const nomeDaUrl = '/my-account';
           <ul>
             <a href="/my-account/profile"><li>Segurança da conta</li></a>
             <a href="/my-account/activies"><li>Atividades Recentes</li></a>
-            <a href="/my-account/delete-account"><li>Configurações avançadas</li></a>
+            <a href="/my-account/delete-account"><li>Encerrar conta</li></a>
           </ul>
         </nav>
 
