@@ -74,15 +74,29 @@ class UserController {
   /* =============================================================== */
 
   async delete(req, res) {
+    const { password } = req.body;
     const { id } = req.params;
+
+    if (!id) {
+      return res.status(400).json({ error: 'Id não informado um invalido' });
+    }
+
+    if (!password) {
+      return res.status(400).json({ error: 'Senha nao informada' });
+    }
 
     try {
       const user = await userModel.checkUserExistsById(id);
-      if (!user) return res.status(400).json({ error: 'Usuario nao encontrado ou nao existe' });
+      if (!user) return res.status(400).json({ error: 'Usúario não encontrado ou nao existe' });
+
+      const compareSenha = await bcrypt.compare(password, user.password);
+      if (!compareSenha) {
+        return res.status(401).json({ error: 'Senha inválida' })
+      }
 
       await userModel.deleteUser(id);
-
       return res.status(200).json({ message: 'Usuario excluido com sucesso' });
+
     } catch (error) {
       return res.status(500).json({
         error: 'erro interno ao deletar usuario',
@@ -126,16 +140,16 @@ class UserController {
       verificaEmailNaoEstaCadastrado = verificaEmailNaoEstaCadastrado.filter(user => user.email === email)
 
       if (verificaEmailNaoEstaCadastrado.length > 0) {
-        return res.status(400).json({error: 'Email já existente'})
+        return res.status(400).json({ error: 'Email já existente' })
       }
 
       const compareSenha = await bcrypt.compare(password, meuUserAtual.password);
       if (!compareSenha) {
-        return res.status(400).json({error: 'Senha inválida'})
+        return res.status(400).json({ error: 'Senha inválida' })
       }
 
-      const editUser = await userModel.editUser(id, {email})
-      return res.status(200).json({message: 'E-mail editado com sucesso'})
+      const editUser = await userModel.editUser(id, { email })
+      return res.status(200).json({ message: 'E-mail editado com sucesso' })
 
     } catch (error) {
       return res.status(500).json({

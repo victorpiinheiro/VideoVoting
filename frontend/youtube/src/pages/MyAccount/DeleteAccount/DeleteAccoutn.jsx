@@ -10,7 +10,7 @@ export default function DeleteAccount() {
     <>
 
       {showModal && <ConfirmDeleteAccount
-        setShowModal={showModal}
+        closeEditMode={() => setShowModal(false)}
       />}
 
       <ContainerDeleteAccount>

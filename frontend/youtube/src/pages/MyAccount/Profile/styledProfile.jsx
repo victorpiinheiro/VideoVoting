@@ -117,7 +117,7 @@ align-items: center;
   border: none;
   width: fit-content;
   min-width: 35px;
-background: #f5f5f5;
+  background: #f5f5f5;
 
 &:hover {
   cursor: pointer;
