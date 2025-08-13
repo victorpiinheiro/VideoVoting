@@ -35,6 +35,15 @@ O **Video Voting** é uma plataforma que permite aos usuários cadastrar vídeos
 - **Pagina de votação**
 ![Tela de Votação](https://github.com/victorpiinheiro/VideoVoting/blob/main/images/votacao.png?raw=true)
 
+- **Pagina de adicionar video**
+![Tela de Votação](https://github.com/victorpiinheiro/VideoVoting/blob/main/images/register-video.png?raw=true)
+
+- **Pagina de configurações**
+![Tela de Votação](https://github.com/victorpiinheiro/VideoVoting/blob/main/images/config.png?raw=true)
+
+- **Pagina de configurações/encerrar conta**
+![Tela de Votação](https://github.com/victorpiinheiro/VideoVoting/blob/main/images/config-encerrar-conta.png?raw=true)
+
 
 
 ## ⚙️ Como Rodar Localmente
